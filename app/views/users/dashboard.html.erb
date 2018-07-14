@@ -67,12 +67,16 @@
    
    
 
-    <div class="greet"><h3>Hi there <%= @name%>!</h3></div>
+    <div class="greet"><h3>Hi there <%= @name%>!</h3>
+        <% if @name == "Guest"%>
+        <h3>Please sign in to upload posts and make comments.</h3>
+        <%end%>
+    </div>
    
     
     <div class="top-posts">
         <div class="container">
-            <h1>Welcome to MemeFull</h1>
+            <h1>Welcome to SharePics</h1>
         </div> 
         
         <h3>All Posts</h3>
@@ -81,12 +85,17 @@
             <div class="single-post" data-aos="zoom-in">
                 <h3><%= i.description %></h3>
                 <img src=" <%= i.image.url(:large) %>" alt="picture here">
+                <a href="/users/comment/<%= i.id %>"> <%= i.comments.length%> Comment(s)</a>
             </div>
             
                
         <% end %>
     </div>
 
+    <div class="paginate">
+        <%= will_paginate @posts, previous_label: "Older", next_label: "Newer" %>
+    </div>
+    
     
 </body>
 </html>

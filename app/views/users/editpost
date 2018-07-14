@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+<body>
+
+    <div class="edit">
+        <div>
+            <img class="cmt_img" src="<%= @post.image.url(:large) %>" alt="picture">
+        </div>
+        <h3>Edit your post's description</h3>
+        <h3>Current post's description: <%= @post.description%></h3>
+        <form action="/editpost/process" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="text" name="editpost_description" placeholder="Enter new description">
+            <input type="hidden" name="editpost_id" value="<%=@post.id%>">
+            <input type="submit" value="Submit changes">
+        </form>
+    </div>
+    
+</body>
+</html>

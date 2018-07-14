@@ -19,9 +19,9 @@
         <form action="/users/register" method="post">
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
             <input type="text" name="user[user_name]" placeholder="Username">
-            <input type="text" name="user[email]" placeholder="Wmail">
+            <input type="text" name="user[email]" placeholder="Email">
             <input type="password" name="user[password]" placeholder="Password">
-            <input type="password" name="user[password_confirmation]" placeholder="Ppassword Confirmation">
+            <input type="password" name="user[password_confirmation]" placeholder="Password Confirmation">
             <input type="submit" value="Register">
         </form>
     </div>

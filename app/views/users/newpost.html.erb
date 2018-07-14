@@ -8,24 +8,30 @@
    
 </head>
 <body>
-    <div>
-        <form action="/process/newpost" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-            <label for="file">Choose file to upload</label>
-            <input type="file" id="file" name="post[image]" multiple>
-            <input type="text" name="post[description]">
-            <input type="hidden" name="post[user_id]" value="<%= session[:userid] %>">
-            <input type="submit" value="Submit">
-        </form>
+    <a class="home" href="/">Home</a>
+    <div class="newpost comment">
         
-    </div>
+        <div>
+            <form action="/process/newpost" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                <label for="file">Choose file to upload </label>
+                <input type="file" id="file" name="post[image]" multiple>
+                <input type="text" name="post[description]" placeholder="Enter a dscription here">
+                <input type="hidden" name="post[user_id]" value="<%= session[:userid] %>">
+                <input type="submit" value="Submit">
+            </form>
+                
+            </div>
+        
+            <div>
+                <% if flash[:errors]%>
+                <% flash[:errors].each do |err|%>
+                <p><%= err%></p>
+                <%end%>
+                <%end%>
+            </div>
 
-    <div>
-        <% if flash[:errors]%>
-        <% flash[:errors].each do |err|%>
-        <p><%= err%></p>
-        <%end%>
-        <%end%>
     </div>
+   
 </body>
 </html>

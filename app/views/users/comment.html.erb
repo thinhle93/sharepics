@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Comment Page</title>
+    
+</head>
+<body>
+    <a class="home" href="/">Home</a>
+    <div class="comment">
+    <h1>Comment Page</h1>
+    <h3><%= @post.description%></h3>
+    <img class="cmt_img" src="<%= @post.image.url(:large) %>" alt="picture">
+    <div class="cmt_user">
+        <h3>posted by: <%= @post.user.user_name %></h3>
+    </div>
+    <% if session[:userid] == @post.user.id %>
+
+   <div class="cmt_dlt">
+       <a href="/deletepost/<%=@post.id%>">Delete Post</a>
+       <form action="/editpost" method="get">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="editpost_id" value="<%=@post.id%>">
+        <button>Edit Post</button>
+       </form>
+   </div>
+   <%end%>
+    <h3><%= @post.comments.length%> comment(s)</h3>
+    <% if session[:userid] %>
+    <div class="cmt_form">
+        <form action="/newcomment/<%= @post.id %>" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="text" name="comment[content]" placeholder="add a new comment">
+            <input type="hidden" name="comment[user_id]" value="<%= session[:userid] %>">
+            <input type="hidden" name="comment[post_id]" value="<%= @post.id%>">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+        
+    <%end%>
+    <div class="cmt_err">
+        <% if flash[:errors]%>
+        <% flash[:errors].each do |err|%>
+        <p><%= err%></p>
+        <%end%>
+    <%end%>
+    </div>
+    
+    <% @comments.each do |i| %>
+        <p><span class="span"><%= i.user.user_name %></span>: <%= i.content %></p>
+    <%end%>
+
+    
+
+    
+    </div>
+    
+</body>
+</html>

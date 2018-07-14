@@ -7,6 +7,11 @@ Rails.application.routes.draw do
   get "users/dashboard" => "users#dashboard"
   get "/newpost" => "users#newpost"
   post "process/newpost" => "users#newpost_process"
+  get "users/comment/:id" => "users#comment"
+  post "newcomment/:postid" => "users#pro_comment"
+  get "deletepost/:postid" => "users#delete_post"
+  get "editpost" => "users#editpost"
+  post "editpost/process" => "users#editpost_process"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

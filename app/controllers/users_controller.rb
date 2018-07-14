@@ -7,9 +7,9 @@ class UsersController < ApplicationController
         if session[:userid] 
             @name = User.find(session[:userid]).user_name
         else
-            @name = "Quest"
+            @name = "Guest"
         end
-        @posts = Post.all
+        @posts = Post.all.paginate(page: params[:page], per_page: 4)
     end
 
     def logout
@@ -49,12 +49,46 @@ class UsersController < ApplicationController
         newpost = Post.create(post_params)
         if !newpost.valid?
             flash[:errors] = newpost.errors.full_messages
-            puts "==================="
-            puts newpost.errors
+           
             redirect_to "/newpost"
         else
             redirect_to "/users/dashboard"
         end
+    end
+
+    def comment
+        @post = Post.find(params[:id])
+        @comments = @post.comments
+    end
+
+    def pro_comment
+        newcomment = Comment.create(comment_params)
+        if !newcomment.valid?
+            flash[:errors] = newcomment.errors.full_messages
+        end
+        
+        redirect_to "/users/comment/#{params[:postid]}"
+        
+    end
+
+    def delete_post
+        post = Post.find(params[:postid])
+        post.destroy
+        post.save
+        redirect_to "/"
+    end
+
+    def editpost
+        @post = Post.find(params[:editpost_id])
+        p "==========="
+        p @post.id
+    end
+
+    def editpost_process
+        post = Post.find(params[:editpost_id])
+        post.description = params[:editpost_description]
+        post.save
+        redirect_to "/users/comment/#{post.id}"
     end
 
     private
@@ -65,5 +99,9 @@ class UsersController < ApplicationController
 
     def post_params
         params.require(:post).permit(:image, :user_id, :description)
+    end
+
+    def comment_params
+        params.require(:comment).permit(:content, :user_id, :post_id)
     end
 end
